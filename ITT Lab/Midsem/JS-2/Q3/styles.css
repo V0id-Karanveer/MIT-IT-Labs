@@ -1,0 +1,21 @@
+div{
+    height: 400px;
+    width: 400px;
+    position: absolute;
+}
+#box2{
+    background-color: aqua;
+    left: 80px;
+    bottom: 60px;
+    z-index: 2;
+}
+#box1{
+    background-color: red;
+    z-index: 0;
+}
+#box3{
+    background-color: burlywood;
+    z-index: 1;
+    left:50px;
+    bottom: 90px;
+}

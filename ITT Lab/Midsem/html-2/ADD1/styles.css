@@ -1,0 +1,33 @@
+table,th,td{
+    border: 2px solid black;
+    padding: 20px;
+    border-collapse: collapse;
+    width: 200px;
+}
+
+#blue{
+    background-color: blue;
+}
+
+#green{
+    background-color: green;
+}
+
+#red{
+    background-color: red;
+}
+
+body{
+    color: white;
+}
+
+th{
+    color: black;
+}
+td{
+    text-align: center;
+}
+
+label{
+    color: black;
+}
