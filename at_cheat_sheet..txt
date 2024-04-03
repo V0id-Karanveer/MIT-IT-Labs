@@ -1,0 +1,745 @@
+SPINNER
+
+package com.example.spinner
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        var options = arrayOf("verna","harrier","duster")
+        val spinner = findViewById<Spinner>(R.id.spinner)
+        val adapter = ArrayAdapter(this,android.R.layout.simple_spinner_item,options)
+        var f1 = findViewById<EditText>(R.id.editTextText)
+        var f2 = findViewById<TextView>(R.id.textView)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                var selectedItem = parent?.getItemAtPosition(position).toString()
+                Toast.makeText(this@MainActivity,selectedItem,Toast.LENGTH_SHORT).show()
+                f1.setText(selectedItem)
+                f2.setText(selectedItem)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
+    }
+}
+
+____________________________________________________________________________________________________________________________________
+
+LISTVIEW
+
+package com.example.listview
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.TextView
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        var cheezen = arrayOf("Hey","Yo","Wow")
+        var ls = findViewById<ListView>(R.id.listview1)
+        var f1 = findViewById<TextView>(R.id.textView)
+        var adapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,cheezen)
+        ls.adapter = adapter
+
+        ls.setOnItemClickListener { parent, view, position, id ->
+            val selecteItem = cheezen[position]
+            f1.setText(selecteItem)
+        }
+    }
+}
+
+
+_______________________________________________________________________________________________________________________________
+
+GRIDVIEW INTENT
+
+package com.example.gridview2
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.GridView
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        var gridView = findViewById<GridView>(R.id.gridView)
+        var items = arrayOf("verna","harrier","duster","i10")
+        var gridadapter = ArrayAdapter(this,R.layout.grid_item_layout,R.id.textView,items)
+        gridView.adapter = gridadapter
+
+        gridView.setOnItemClickListener { parent, view, position, id ->
+            val selecteditem = items[position]
+            val intent = Intent(this,SecondActivity::class.java)
+            intent.putExtra("key",selecteditem)
+            startActivity(intent)
+        }
+    }
+}
+
+SECOND ACT
+
+package com.example.gridview2
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.GridView
+import android.widget.TextView
+import android.widget.Toast
+
+class SecondActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.second_activity)
+        var item = intent.getStringExtra("key")
+        var f1 = findViewById<TextView>(R.id.textView2)
+        f1.setText(item)
+    }
+}
+
+Manifest - <activity android:name=".SecondActivity"/>
+
+_______________________________________________________________________________________________________________________________
+
+ALERT DIALOG
+
+package com.example.alertdialog
+
+import android.content.Context
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+
+class MainActivity : AppCompatActivity() {
+    fun showalert(context: Context,title:String,message: String){
+        var alert = AlertDialog.Builder(context)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Move") { dialog, which ->
+                var intent = Intent(this,SecondActivity::class.java)
+                intent.putExtra("key",message)
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel"){ dialog , which ->
+
+            }
+            .create()
+        alert.show()
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        var f1 = findViewById<EditText>(R.id.editTextText)
+        var btn = findViewById<Button>(R.id.button)
+        btn.setOnClickListener {
+            showalert(this,"Button pressed","you have written "+f1.text)
+
+        }
+    }
+}
+
+____________________________________________________________________________________________________________________________________
+
+INVISIBLE
+
+package com.example.visibility
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        var btn = findViewById<ImageButton>(R.id.imageButton)
+        var text = findViewById<TextView>(R.id.lol1)
+        btn.setOnClickListener{
+            if(text.visibility == View.VISIBLE){
+                text.visibility = View.INVISIBLE
+            }
+            else{
+                text.visibility = View.VISIBLE
+            }
+        }
+    }
+}
+
+__________________________________________________________________________________________________________________________
+
+RADIO CHECKBOX
+
+package com.example.radiocheck
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        var radiogrp = findViewById<RadioGroup>(R.id.rad1)
+        var btn = findViewById<Button>(R.id.button)
+        var checkbox = findViewById<CheckBox>(R.id.checkBox)
+        var checkbox2 = findViewById<CheckBox>(R.id.checkBox2)
+        var btn2 = findViewById<Button>(R.id.button2)
+        var selecteditem = findViewById<RadioButton>(R.id.radioButton3)
+        radiogrp.setOnCheckedChangeListener { group, checkedId ->
+            selecteditem = findViewById<RadioButton>(checkedId)
+
+        }
+        btn.setOnClickListener {
+            if(checkbox2.isChecked && checkbox.isChecked){
+                Toast.makeText(this,"School ,College Done",Toast.LENGTH_SHORT).show()
+            }
+            else if(checkbox.isChecked){
+                Toast.makeText(this,"School Done",Toast.LENGTH_SHORT).show()
+            }
+            else if(checkbox2.isChecked){
+                Toast.makeText(this,"College Done",Toast.LENGTH_SHORT).show()
+            }
+
+
+        }
+        btn2.setOnClickListener {
+            Toast.makeText(this,selecteditem.text,Toast.LENGTH_SHORT).show()
+        }
+
+    }
+}
+
+________________________________________________________________________________________________________________________________
+
+GRIDVIEW + NOTIFICATION
+
+package com.example.gridview3
+
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.GridView
+import androidx.core.app.NotificationCompat
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        var gridview = findViewById<GridView>(R.id.gv)
+        var items = arrayOf("ayush", "piyush", "random", "newone")
+        var gridadapter = ArrayAdapter(this, R.layout.grid_item_layout, R.id.textView, items)
+        gridview.adapter = gridadapter;
+        gridview.setOnItemClickListener { parent, view, position, id ->
+            val selecteditem = items[position]
+            val builder = NotificationCompat.Builder(this, "channel_id")
+                .setSmallIcon(android.R.drawable.stat_notify_chat)
+                .setContentTitle("Selected Item")
+                .setContentText("You have selected $selecteditem")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+            // Create a notification manager object
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            // Check if the device is running Android Oreo or higher
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                // Create a notification channel
+                val channel = NotificationChannel("channel_id", "Channel Name", NotificationManager.IMPORTANCE_DEFAULT)
+                channel.description = "Channel Description"
+                // Register the channel with the system
+                notificationManager.createNotificationChannel(channel)
+            }
+            // Issue the notification
+            notificationManager.notify(1, builder.build())
+        }
+
+    }
+
+}
+
+__________________________________________________________________________________________________________________________________
+
+MEDIA PLAYER
+
+package com.example.musicplayer2
+
+import android.media.MediaPlayer
+
+import android.os.Bundle
+import android.widget.Toast
+
+import android.os.Handler
+import android.widget.Button
+import android.widget.SeekBar
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var runnable:Runnable
+    private var handler: Handler = Handler()
+    private var pause:Boolean = false
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Start the media player
+        val playBtn = findViewById<Button>(R.id.playBtn)
+        val stopBtn = findViewById<Button>(R.id.stopBtn)
+        val pauseBtn = findViewById<Button>(R.id.pauseBtn)
+
+        val tv_due = findViewById<TextView>(R.id.tv_due)
+        val seek_bar = findViewById<SeekBar>(R.id.seek_bar)
+        val tv_pass = findViewById<TextView>(R.id.tv_pass)
+        playBtn.setOnClickListener{
+            if(pause){
+                mediaPlayer.seekTo(mediaPlayer.currentPosition)
+                mediaPlayer.start()
+                pause = false
+                Toast.makeText(this,"media playing",Toast.LENGTH_SHORT).show()
+            }else{
+
+                mediaPlayer = MediaPlayer.create(applicationContext,R.raw.audio)
+                mediaPlayer.start()
+                Toast.makeText(this,"media playing",Toast.LENGTH_SHORT).show()
+
+            }
+            initializeSeekBar()
+            playBtn.isEnabled = false
+            pauseBtn.isEnabled = true
+            stopBtn.isEnabled = true
+
+            mediaPlayer.setOnCompletionListener {
+                playBtn.isEnabled = true
+                pauseBtn.isEnabled = false
+                stopBtn.isEnabled = false
+                Toast.makeText(this,"end",Toast.LENGTH_SHORT).show()
+            }
+        }
+        // Pause the media player
+        pauseBtn.setOnClickListener {
+            if(mediaPlayer.isPlaying){
+                mediaPlayer.pause()
+                pause = true
+                playBtn.isEnabled = true
+                pauseBtn.isEnabled = false
+                stopBtn.isEnabled = true
+                Toast.makeText(this,"media pause",Toast.LENGTH_SHORT).show()
+            }
+        }
+        // Stop the media player
+        stopBtn.setOnClickListener{
+            if(mediaPlayer.isPlaying || pause.equals(true)){
+                pause = false
+                seek_bar.setProgress(0)
+                mediaPlayer.stop()
+                mediaPlayer.reset()
+                mediaPlayer.release()
+                handler.removeCallbacks(runnable)
+
+                playBtn.isEnabled = true
+                pauseBtn.isEnabled = false
+                stopBtn.isEnabled = false
+                tv_pass.text = ""
+                tv_due.text = ""
+                Toast.makeText(this,"media stop",Toast.LENGTH_SHORT).show()
+            }
+        }
+        // Seek bar change listener
+        seek_bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                if (b) {
+                    mediaPlayer.seekTo(i * 1000)
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+            }
+        })
+    }
+    // Method to initialize seek bar and audio stats
+    private fun initializeSeekBar() {
+        val tv_due = findViewById<TextView>(R.id.tv_due)
+        val seek_bar = findViewById<SeekBar>(R.id.seek_bar)
+        val tv_pass = findViewById<TextView>(R.id.tv_pass)
+        seek_bar.max = mediaPlayer.seconds
+
+        runnable = Runnable {
+            seek_bar.progress = mediaPlayer.currentSeconds
+
+            tv_pass.text = "${mediaPlayer.currentSeconds} sec"
+            val diff = mediaPlayer.seconds - mediaPlayer.currentSeconds
+            tv_due.text = "$diff sec"
+
+            handler.postDelayed(runnable, 1000)
+        }
+        handler.postDelayed(runnable, 1000)
+    }
+}
+// Creating an extension property to get the media player time duration in seconds
+val MediaPlayer.seconds:Int
+    get() {
+        return this.duration / 1000
+    }
+// Creating an extension property to get media player current position in seconds
+val MediaPlayer.currentSeconds:Int
+    get() {
+        return this.currentPosition/1000
+    }  
+
+
+XML
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/pauseBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:enabled="false"
+        android:text="Pause"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/playBtn"
+        android:layout_width="88dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/stopBtn"
+        app:layout_constraintStart_toEndOf="@+id/pauseBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/stopBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="8dp"
+        android:enabled="false"
+        android:text="Stop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_pass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_due"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
+
+        <SeekBar
+            android:id="@+id/seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_pass"
+            android:saveEnabled="false" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+ADD AUDIO FILE IN res/raw , name it audio.mp3
+
+___________________________________________________________________________________________________________________________
+
+DATABASE
+
+Go to AndroidManifest.xml
+
+add these permissions -
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+below <manifest> tag and above <application> tag
+
+like here 
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Androidstudio"
+        tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
+
+Make New Class DatabaseHelper and add the code below - 
+
+import android.content.ContentValues
+import android.content.Context
+import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
+
+class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+
+    companion object {
+        private const val DATABASE_VERSION = 1
+        private const val DATABASE_NAME = "StudentManager.db"
+
+        // Table name and columns
+        private const val TABLE_NAME = "students"
+        private const val COLUMN_ROLL_NUMBER = "roll_number"
+        private const val COLUMN_NAME = "name"
+        private const val COLUMN_MARKS = "marks"
+    }
+
+    override fun onCreate(db: SQLiteDatabase?) {
+        val createTableQuery = "CREATE TABLE $TABLE_NAME (" +
+                "$COLUMN_ROLL_NUMBER TEXT PRIMARY KEY," +
+                "$COLUMN_NAME TEXT," +
+                "$COLUMN_MARKS INTEGER)"
+        db?.execSQL(createTableQuery)
+    }
+
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        onCreate(db)
+    }
+
+    fun addStudent(rollNumber: String, name: String, marks: Int): Boolean {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(COLUMN_ROLL_NUMBER, rollNumber)
+        contentValues.put(COLUMN_NAME, name)
+        contentValues.put(COLUMN_MARKS, marks)
+        val result = db.insert(TABLE_NAME, null, contentValues)
+        return result != -1L
+    }
+
+    fun readAllStudents(): Cursor {
+        val db = this.readableDatabase
+        return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
+    }
+
+    fun updateStudent(rollNumber: String, name: String, marks: Int): Boolean {
+        val db = this.writableDatabase
+        val contentValues = ContentValues()
+        contentValues.put(COLUMN_NAME, name)
+        contentValues.put(COLUMN_MARKS, marks)
+        val result = db.update(TABLE_NAME, contentValues, "$COLUMN_ROLL_NUMBER = ?", arrayOf(rollNumber))
+        return result != -1
+    }
+
+    fun deleteStudent(rollNumber: String): Boolean {
+        val db = this.writableDatabase
+        val result = db.delete(TABLE_NAME, "$COLUMN_ROLL_NUMBER = ?", arrayOf(rollNumber))
+        return result != -1
+    }
+}
+
+
+In the Main Activity
+
+do this 
+
+
+package com.example.androidstudio
+import DatabaseHelper
+import android.content.Context
+import android.database.Cursor
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+    fun showAlert(context: Context, title: String, message: String) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(title)
+        builder.setMessage(message)
+
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
+    private lateinit var databaseHelper: DatabaseHelper
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        databaseHelper = DatabaseHelper(this)
+
+        val rollNumberEditText = findViewById<EditText>(R.id.rollNumberEditText)
+        val nameEditText = findViewById<EditText>(R.id.nameEditText)
+        val marksEditText = findViewById<EditText>(R.id.marksEditText)
+        val addButton = findViewById<Button>(R.id.addButton)
+        val displayButton = findViewById<Button>(R.id.displayButton)
+        val updatestudent = findViewById<Button>(R.id.updatestudent)
+        val deletestudent = findViewById<Button>(R.id.deletestudent)
+        updatestudent.setOnClickListener {
+            val rollNumber = rollNumberEditText.text.toString()
+            val name = nameEditText.text.toString()
+            val marks = marksEditText.text.toString()
+
+            if (rollNumber.isNotEmpty() && name.isNotEmpty() && marks.isNotEmpty()) {
+                if (databaseHelper.updateStudent(rollNumber, name, marks.toInt())) {
+                    Toast.makeText(this, "Updated Student Successfully", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Failed to update student", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        deletestudent.setOnClickListener {
+            val rollNumber = rollNumberEditText.text.toString()
+
+            if (rollNumber.isNotEmpty()) {
+                if (databaseHelper.deleteStudent(rollNumber)) {
+                    Toast.makeText(this, "Deleted Student Successfully", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Failed to delete student", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Please fill in roll number field", Toast.LENGTH_SHORT).show()
+            }
+        }
+        addButton.setOnClickListener {
+            val rollNumber = rollNumberEditText.text.toString()
+            val name = nameEditText.text.toString()
+            val marks = marksEditText.text.toString()
+
+            if (rollNumber.isNotEmpty() && name.isNotEmpty() && marks.isNotEmpty()) {
+                if (databaseHelper.addStudent(rollNumber, name, marks.toInt())) {
+                    Toast.makeText(this, "Student added successfully", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Failed to add student", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        displayButton.setOnClickListener {
+            val cursor: Cursor = databaseHelper.readAllStudents()
+            if (cursor.count == 0) {
+                Toast.makeText(this, "No students to display", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val displayString = StringBuilder()
+            while (cursor.moveToNext()) {
+                val rollNumber = cursor.getString(0)
+                val name = cursor.getString(1)
+                val marks = cursor.getInt(2)
+                displayString.append("Roll Number: $rollNumber, Name: $name, Marks: $marks\n")
+            }
+            showAlert(this,"Selected Items", displayString.toString())
+        }
+    }
+
+    override fun onDestroy() {
+        databaseHelper.close()
+        super.onDestroy()
+    }
+}
