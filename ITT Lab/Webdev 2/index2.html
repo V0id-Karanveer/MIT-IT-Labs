@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,th,td{
+            border: 2px solid;
+        }
+        p{
+            font-size: 25px;
+            font-style: italic;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <p id="para"></p>
+    <input type="radio" name="same" id="rd1" value="Yo">
+    Yo
+    <br>
+    <input type="radio" name="same" id="rd2" value="Yo2">
+    Yo2
+    <br>
+    <input type="checkbox" name="same" id="cb1" value="Yo3">
+    Yo3
+    <br>
+    <input type="checkbox" name="same" id="cb2" value="Yo4">
+    Yo4
+    <br>
+    <input type="date" id="date">
+    <br>
+    <select id="sel">
+        <option value="XD1">XD1</option>
+        <option value="XD2">XD2</option>
+        <option value="XD3">XD3</option>
+    </select>
+    <br>
+    <button id="btn">OK</button>
+    <table id="tbl" hidden>
+        <tr>
+            <th>Object</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Radio</td>
+            <td id="o1"></td>
+        </tr>
+        <tr>
+            <td>Checkbox</td>
+            <td id="o2"></td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td id="o3"></td>
+        </tr>
+        <tr>
+            <td>Drop</td>
+            <td id="o4"></td>
+        </tr>
+    </table>
+    <Script src="index2.js"></Script>
+</body>
+</html>
